@@ -10,60 +10,33 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin
+        // Admin utama
         User::create([
-            'name'     => 'Admin Utama',
-            'email'    => 'admin@inspeksi.test',
-            'phone'    => '081200000001',
-            'password' => Hash::make('password'),
-            'role'     => 'admin',
+            'name'              => 'Admin InspeksiKu',
+            'email'             => 'admin@inspeksiku.id',
+            'phone'             => '081200000001',
+            'password'          => Hash::make('admin123'),
+            'role'              => 'admin',
             'email_verified_at' => now(),
         ]);
 
-        // Inspectors
+        // Inspektor 1
         User::create([
-            'name'     => 'Budi Santoso',
-            'email'    => 'budi@inspeksi.test',
-            'phone'    => '081200000002',
-            'password' => Hash::make('password'),
-            'role'     => 'inspector',
+            'name'              => 'Budi Santoso',
+            'email'             => 'budi@inspeksiku.id',
+            'phone'             => '081200000002',
+            'password'          => Hash::make('inspektor123'),
+            'role'              => 'inspector',
             'email_verified_at' => now(),
         ]);
 
+        // Inspektor 2
         User::create([
-            'name'     => 'Agus Prasetyo',
-            'email'    => 'agus@inspeksi.test',
-            'phone'    => '081200000003',
-            'password' => Hash::make('password'),
-            'role'     => 'inspector',
-            'email_verified_at' => now(),
-        ]);
-
-        // Customers
-        User::create([
-            'name'     => 'Andi Wijaya',
-            'email'    => 'andi@example.com',
-            'phone'    => '081300000001',
-            'password' => Hash::make('password'),
-            'role'     => 'customer',
-            'email_verified_at' => now(),
-        ]);
-
-        User::create([
-            'name'     => 'Siti Rahayu',
-            'email'    => 'siti@example.com',
-            'phone'    => '081300000002',
-            'password' => Hash::make('password'),
-            'role'     => 'customer',
-            'email_verified_at' => now(),
-        ]);
-
-        User::create([
-            'name'     => 'Reza Firmansyah',
-            'email'    => 'reza@example.com',
-            'phone'    => '081300000003',
-            'password' => Hash::make('password'),
-            'role'     => 'customer',
+            'name'              => 'Agus Prasetyo',
+            'email'             => 'agus@inspeksiku.id',
+            'phone'             => '081200000003',
+            'password'          => Hash::make('inspektor123'),
+            'role'              => 'inspector',
             'email_verified_at' => now(),
         ]);
     }

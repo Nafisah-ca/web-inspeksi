@@ -62,23 +62,23 @@
             @endforeach
         </div>
 
-        {{-- Guarantee --}}
+        {{-- Guarantee from CMS --}}
+        @if(!empty($why_us['title']))
         <div class="card p-8 text-center">
-            <h3 class="text-xl font-bold text-gray-900 mb-4">Garansi & Komitmen Kami</h3>
+            <h3 class="text-xl font-bold text-gray-900 mb-6">{{ $why_us['title'] }}</h3>
             <div class="grid md:grid-cols-3 gap-6">
-                @foreach([
-                    ['🔍', 'Inspeksi Menyeluruh', 'Setiap titik diperiksa dengan teliti menggunakan alat profesional'],
-                    ['📝', 'Laporan Transparan', 'Laporan lengkap dengan foto, status setiap komponen, dan rekomendasi perbaikan'],
-                    ['💯', 'Garansi Kepuasan', 'Tidak puas? Kami refund 100% jika laporan terbukti tidak akurat'],
-                ] as [$icon, $title, $desc])
+                @for($w = 1; $w <= 3; $w++)
+                @if(!empty($why_us["item{$w}_title"]))
                 <div>
-                    <div class="text-3xl mb-2">{{ $icon }}</div>
-                    <h4 class="font-semibold text-gray-900 mb-1">{{ $title }}</h4>
-                    <p class="text-sm text-gray-500">{{ $desc }}</p>
+                    <div class="text-3xl mb-2">{{ $why_us["item{$w}_icon"] ?? '✅' }}</div>
+                    <h4 class="font-semibold text-gray-900 mb-1">{{ $why_us["item{$w}_title"] }}</h4>
+                    <p class="text-sm text-gray-500">{{ $why_us["item{$w}_desc"] ?? '' }}</p>
                 </div>
-                @endforeach
+                @endif
+                @endfor
             </div>
         </div>
+        @endif
     </div>
 </div>
 @endsection

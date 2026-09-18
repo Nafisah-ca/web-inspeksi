@@ -80,6 +80,17 @@
                 </svg>
                 Inspektor
             </a>
+
+            <p class="px-3 pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Website</p>
+            <a href="{{ route('admin.site-content.index') }}"
+               class="sidebar-link {{ request()->routeIs('admin.site-content.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
+                </svg>
+                Konten Website
+                <span class="ml-auto text-xs bg-blue-100 text-blue-600 font-semibold px-1.5 py-0.5 rounded">CMS</span>
+            </a>
         </nav>
 
         {{-- User --}}

@@ -176,6 +176,10 @@
 </main>
 
 
+<?php
+    $footerCms  = \App\Models\SiteContent::section('footer');
+    $contactCms = \App\Models\SiteContent::section('contact');
+?>
 <footer class="bg-gray-900 text-gray-400 mt-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -187,9 +191,9 @@
                                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                     </div>
-                    <span class="text-white font-bold">InspeksiKu</span>
+                    <span class="text-white font-bold"><?php echo e($footerCms['brand_name'] ?? 'InspeksiKu'); ?></span>
                 </div>
-                <p class="text-sm leading-relaxed">Platform inspeksi kendaraan terpercaya. Cepat, transparan, dan profesional.</p>
+                <p class="text-sm leading-relaxed"><?php echo e($footerCms['tagline'] ?? ''); ?></p>
             </div>
             <div>
                 <h4 class="text-white font-semibold mb-3 text-sm">Layanan</h4>
@@ -201,14 +205,23 @@
             <div>
                 <h4 class="text-white font-semibold mb-3 text-sm">Kontak</h4>
                 <ul class="space-y-2 text-sm">
-                    <li>📞 0812-0000-0001</li>
-                    <li>📧 info@inspeksiku.id</li>
-                    <li>📍 Jakarta, Indonesia</li>
+                    <?php if(!empty($contactCms['phone'])): ?>
+                    <li>📞 <?php echo e($contactCms['phone']); ?></li>
+                    <?php endif; ?>
+                    <?php if(!empty($contactCms['email'])): ?>
+                    <li>📧 <?php echo e($contactCms['email']); ?></li>
+                    <?php endif; ?>
+                    <?php if(!empty($contactCms['address'])): ?>
+                    <li>📍 <?php echo e($contactCms['address']); ?></li>
+                    <?php endif; ?>
+                    <?php if(!empty($contactCms['open_hours'])): ?>
+                    <li>🕐 <?php echo e($contactCms['open_hours']); ?></li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
         <hr class="border-gray-700 mt-8 mb-4">
-        <p class="text-center text-xs">© <?php echo e(date('Y')); ?> InspeksiKu. Dibuat dengan ❤️ di Indonesia.</p>
+        <p class="text-center text-xs">© <?php echo e(date('Y')); ?> <?php echo e($footerCms['copyright'] ?? 'InspeksiKu.'); ?></p>
     </div>
 </footer>
 

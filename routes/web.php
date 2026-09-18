@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Inspector;
 use App\Http\Controllers\User;
+use App\Http\Controllers\Admin\SiteContentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -108,6 +109,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Inspectors (CMS)
         Route::resource('inspectors', Admin\InspectorController::class)->names('inspectors');
+
+        // CMS Konten Website
+        Route::get('/site-content',                        [SiteContentController::class, 'index'])->name('site-content.index');
+        Route::get('/site-content/{section}/edit',         [SiteContentController::class, 'edit'])->name('site-content.edit');
+        Route::put('/site-content/{section}',              [SiteContentController::class, 'update'])->name('site-content.update');
     });
 });
 

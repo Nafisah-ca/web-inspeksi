@@ -128,4 +128,28 @@
         </div>
     </div>
 </div>
+
+{{-- Quick Actions CMS --}}
+<div class="mt-6">
+    <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Aksi Cepat</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        @foreach([
+            ['Konten Website', 'admin.site-content.index', [], 'bg-blue-50 text-blue-600', 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z'],
+            ['Paket Inspeksi', 'admin.packages.index',     [], 'bg-purple-50 text-purple-600', 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4'],
+            ['Item Checklist', 'admin.checklist.index',    [], 'bg-green-50 text-green-600',  'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4'],
+            ['Kelola Inspektor','admin.inspectors.index',  [], 'bg-orange-50 text-orange-600','M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z'],
+        ] as [$label, $route, $params, $cls, $path])
+        <a href="{{ route($route, $params) }}"
+           class="card p-4 hover:shadow-md transition-shadow flex items-center gap-3 group">
+            <div class="w-9 h-9 {{ $cls }} rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $path }}"/>
+                </svg>
+            </div>
+            <span class="text-sm font-medium text-gray-700">{{ $label }}</span>
+        </a>
+        @endforeach
+    </div>
+</div>
+
 @endsection
