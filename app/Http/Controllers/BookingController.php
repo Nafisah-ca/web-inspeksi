@@ -26,9 +26,9 @@ class BookingController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'package_id'   => ['required', 'exists:inspection_packages,id'],
+            'package_id'   => ['required', 'exists:inspection_package,id'],
             'vehicle_type' => ['required', 'in:existing,new'],
-            'vehicle_id'   => ['required_if:vehicle_type,existing', 'nullable', 'exists:vehicles,id'],
+            'vehicle_id'   => ['required_if:vehicle_type,existing', 'nullable', 'exists:vehicle,id'],
             // New vehicle fields
             'brand'        => ['required_if:vehicle_type,new', 'nullable', 'string', 'max:100'],
             'model'        => ['required_if:vehicle_type,new', 'nullable', 'string', 'max:100'],

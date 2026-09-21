@@ -21,7 +21,7 @@ class ChecklistItemController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'package_id'  => ['required', 'exists:inspection_packages,id'],
+            'package_id'  => ['required', 'exists:inspection_package,id'],
             'item_name'   => ['required', 'string', 'max:255'],
             'category'    => ['required', 'string', 'max:100'],
             'sort_order'  => ['nullable', 'integer', 'min:0'],

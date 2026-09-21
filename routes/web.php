@@ -92,11 +92,22 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Bookings
         Route::get('/bookings',                            [Admin\BookingController::class, 'index'])->name('bookings.index');
+        Route::get('/bookings/create',                     [Admin\BookingController::class, 'create'])->name('bookings.create');
+        Route::post('/bookings',                           [Admin\BookingController::class, 'store'])->name('bookings.store');
+        Route::get('/bookings/vehicles',                   [Admin\BookingController::class, 'getVehiclesByCustomer'])->name('bookings.vehicles');
         Route::get('/bookings/{booking}',                  [Admin\BookingController::class, 'show'])->name('bookings.show');
         Route::post('/bookings/{booking}/confirm',         [Admin\BookingController::class, 'confirm'])->name('bookings.confirm');
+        Route::post('/bookings/{booking}/start',           [Admin\BookingController::class, 'startService'])->name('bookings.start');
+        Route::post('/bookings/{booking}/complete',        [Admin\BookingController::class, 'complete'])->name('bookings.complete');
         Route::post('/bookings/{booking}/assign',          [Admin\BookingController::class, 'assignInspector'])->name('bookings.assign');
         Route::post('/bookings/{booking}/status',          [Admin\BookingController::class, 'updateStatus'])->name('bookings.status');
         Route::post('/bookings/{booking}/cancel',          [Admin\BookingController::class, 'cancel'])->name('bookings.cancel');
+
+        // Inspection Results (admin input / view)
+        Route::get('/results',                             [Admin\InspectionResultController::class, 'index'])->name('results.index');
+        Route::get('/bookings/{booking}/result/create',    [Admin\InspectionResultController::class, 'create'])->name('results.create');
+        Route::post('/bookings/{booking}/result',          [Admin\InspectionResultController::class, 'store'])->name('results.store');
+        Route::get('/bookings/{booking}/result',           [Admin\InspectionResultController::class, 'show'])->name('results.show');
 
         // Packages (CMS)
         Route::resource('packages', Admin\PackageController::class)->names('packages');

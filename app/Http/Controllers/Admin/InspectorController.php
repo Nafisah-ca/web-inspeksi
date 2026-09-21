@@ -32,7 +32,7 @@ class InspectorController extends Controller
     {
         $validated = $request->validate([
             'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'email', 'unique:users,email'],
+            'email'    => ['required', 'email', 'unique:user,email'],
             'phone'    => ['nullable', 'string', 'max:20'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -62,7 +62,7 @@ class InspectorController extends Controller
 
         $validated = $request->validate([
             'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'email', 'unique:users,email,' . $inspector->id],
+            'email'    => ['required', 'email', 'unique:user,email,' . $inspector->id],
             'phone'    => ['nullable', 'string', 'max:20'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ]);
