@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Cache;
 
 class SiteContent extends Model
 {
+    protected $table = 'site_content';
+
     protected $fillable = [
         'section',
         'key',

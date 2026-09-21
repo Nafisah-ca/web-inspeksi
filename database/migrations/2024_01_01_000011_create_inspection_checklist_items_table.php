@@ -8,9 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('inspection_checklist_items', function (Blueprint $table) {
+        Schema::create('inspection_checklist_item', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('package_id')->constrained('inspection_packages')->cascadeOnDelete();
+            $table->foreignId('package_id')->constrained('inspection_package')->cascadeOnDelete();
             $table->string('item_name');
             $table->string('category');
             $table->integer('sort_order')->default(0);
@@ -20,6 +20,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('inspection_checklist_items');
+        Schema::dropIfExists('inspection_checklist_item');
     }
 };

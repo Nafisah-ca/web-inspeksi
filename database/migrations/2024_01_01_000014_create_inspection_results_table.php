@@ -8,13 +8,13 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('inspection_results', function (Blueprint $table) {
+        Schema::create('inspection_result', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('booking_id')->constrained()->cascadeOnDelete();
-            $table->json('checklist_json')->nullable()->comment('Array of {item_id, item_name, category, status: ok/warning/bad, note}');
+            $table->foreignId('booking_id')->constrained('booking')->cascadeOnDelete();
+            $table->json('checklist_json')->nullable();
             $table->text('condition_summary')->nullable();
             $table->text('recommendation')->nullable();
-            $table->json('photos')->nullable()->comment('Array of photo paths');
+            $table->json('photos')->nullable();
             $table->text('inspector_notes')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
@@ -23,6 +23,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('inspection_results');
+        Schema::dropIfExists('inspection_result');
     }
 };

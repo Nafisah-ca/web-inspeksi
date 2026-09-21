@@ -10,6 +10,8 @@ class InspectionPackage extends Model
 {
     use HasFactory;
 
+    protected $table = 'inspection_package';
+
     protected $fillable = [
         'name',
         'description',
