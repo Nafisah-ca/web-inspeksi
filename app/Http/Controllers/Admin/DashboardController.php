@@ -20,6 +20,7 @@ class DashboardController extends Controller
             'total'       => Booking::count(),
             'customers'   => User::where('role', 'customer')->count(),
             'inspectors'  => User::where('role', 'inspector')->count(),
+            'today'       => Booking::whereDate('booking_date', today())->count(),
         ];
 
         // Bookings hari ini

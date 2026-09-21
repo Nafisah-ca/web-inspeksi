@@ -1,17 +1,36 @@
 @extends('layouts.admin')
 @section('title', 'Kelola Booking')
-@section('page-title', 'Kelola Booking')
+@section('page-title', 'Semua Booking')
 
 @section('content')
-{{-- Filters --}}
+
+{{-- Header + Tombol Tambah --}}
+<div class="flex items-center justify-between mb-5 flex-wrap gap-3">
+    <div>
+        <p class="text-sm text-gray-500">
+            Total <span class="font-semibold text-gray-900">{{ $bookings->total() }}</span> booking ditemukan
+            @if(request()->hasAny(['search','status','date']))
+                <a href="{{ route('admin.bookings.index') }}" class="ml-2 text-blue-600 hover:underline text-xs">(reset filter)</a>
+            @endif
+        </p>
+    </div>
+    <a href="{{ route('admin.bookings.create') }}" class="btn-primary btn-sm flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        Tambah Booking
+    </a>
+</div>
+
+{{-- Filter --}}
 <div class="card p-4 mb-5">
     <form method="GET" class="flex flex-wrap gap-3 items-end">
-        <div class="flex-1 min-w-[200px]">
+        <div class="flex-1 min-w-[180px]">
             <label class="form-label">Cari</label>
             <input type="text" name="search" value="{{ request('search') }}"
-                   class="form-input" placeholder="Kode booking, nama, plat...">
+                   class="form-input" placeholder="Kode booking, nama pelanggan, plat...">
         </div>
-        <div class="min-w-[160px]">
+        <div class="min-w-[170px]">
             <label class="form-label">Status</label>
             <select name="status" class="form-input">
                 <option value="">Semua Status</option>
@@ -20,67 +39,124 @@
                 @endforeach
             </select>
         </div>
-        <div class="min-w-[160px]">
-            <label class="form-label">Tanggal</label>
+        <div class="min-w-[150px]">
+            <label class="form-label">Tanggal Booking</label>
             <input type="date" name="date" value="{{ request('date') }}" class="form-input">
         </div>
-        <button type="submit" class="btn-primary btn-sm h-9">Filter</button>
-        @if(request()->hasAny(['search','status','date']))
-        <a href="{{ route('admin.bookings.index') }}" class="btn-secondary btn-sm h-9">Reset</a>
-        @endif
+        <div class="flex gap-2">
+            <button type="submit" class="btn-primary btn-sm h-9">Filter</button>
+            @if(request()->hasAny(['search','status','date']))
+            <a href="{{ route('admin.bookings.index') }}" class="btn-secondary btn-sm h-9">Reset</a>
+            @endif
+        </div>
     </form>
 </div>
 
-{{-- Table --}}
+{{-- Tabel --}}
 <div class="card overflow-hidden">
     <div class="overflow-x-auto">
         <table class="w-full">
             <thead>
-                <tr>
-                    <th class="table-th">Kode</th>
-                    <th class="table-th">Customer</th>
-                    <th class="table-th">Kendaraan</th>
-                    <th class="table-th">Paket</th>
-                    <th class="table-th">Jadwal</th>
+                <tr class="bg-gray-50 text-left">
+                    <th class="table-th">No. Booking</th>
+                    <th class="table-th">Pelanggan</th>
+                    <th class="table-th">Paket Inspeksi</th>
+                    <th class="table-th">Tanggal & Waktu</th>
                     <th class="table-th">Inspektor</th>
                     <th class="table-th">Status</th>
-                    <th class="table-th">Aksi</th>
+                    <th class="table-th">Keterangan</th>
+                    <th class="table-th text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
                 @forelse($bookings as $booking)
                 <tr class="hover:bg-gray-50 transition-colors">
+                    {{-- Kode --}}
                     <td class="table-td">
-                        <span class="font-mono text-xs font-semibold text-gray-900">{{ $booking->booking_code }}</span>
+                        <a href="{{ route('admin.bookings.show', $booking) }}"
+                           class="font-mono text-xs font-semibold text-blue-600 hover:underline">
+                            {{ $booking->booking_code }}
+                        </a>
+                        <p class="text-xs text-gray-400 mt-0.5">{{ $booking->created_at->format('d M Y') }}</p>
                     </td>
+
+                    {{-- Pelanggan --}}
                     <td class="table-td">
-                        <p class="font-medium text-gray-900 text-sm">{{ $booking->user->name }}</p>
-                        <p class="text-xs text-gray-400">{{ $booking->user->phone }}</p>
+                        <p class="text-sm font-medium text-gray-900">{{ $booking->user->name }}</p>
+                        <p class="text-xs text-gray-400">{{ $booking->user->phone ?? $booking->user->email }}</p>
                     </td>
+
+                    {{-- Paket --}}
                     <td class="table-td">
-                        <p class="text-sm text-gray-900">{{ $booking->vehicle->brand }} {{ $booking->vehicle->model }}</p>
-                        <p class="text-xs text-gray-400">{{ $booking->vehicle->plate_number }}</p>
+                        <p class="text-sm text-gray-900">{{ $booking->package->name }}</p>
+                        <p class="text-xs text-gray-400">{{ $booking->vehicle->brand }} {{ $booking->vehicle->model }} · {{ $booking->vehicle->plate_number }}</p>
                     </td>
-                    <td class="table-td text-sm">{{ $booking->package->name }}</td>
-                    <td class="table-td">
-                        <p class="text-sm font-medium">{{ $booking->booking_date->format('d M Y') }}</p>
+
+                    {{-- Jadwal --}}
+                    <td class="table-td whitespace-nowrap">
+                        <p class="text-sm font-medium text-gray-900">{{ $booking->booking_date->format('d M Y') }}</p>
                         <p class="text-xs text-gray-400">{{ substr($booking->booking_time, 0, 5) }} WIB</p>
                     </td>
-                    <td class="table-td text-sm text-gray-500">
-                        {{ $booking->inspector?->name ?? '—' }}
+
+                    {{-- Inspektor --}}
+                    <td class="table-td text-sm">
+                        @if($booking->inspector)
+                            <p class="text-gray-900">{{ $booking->inspector->name }}</p>
+                        @else
+                            <span class="text-gray-300">—</span>
+                        @endif
                     </td>
+
+                    {{-- Status --}}
                     <td class="table-td">
                         <span class="badge-{{ $booking->status_color }}">{{ $booking->status_label }}</span>
                     </td>
+
+                    {{-- Keterangan --}}
+                    <td class="table-td max-w-[160px]">
+                        @if($booking->notes)
+                            <p class="text-xs text-gray-500 truncate" title="{{ $booking->notes }}">{{ $booking->notes }}</p>
+                        @elseif($booking->cancellation_reason)
+                            <p class="text-xs text-red-400 truncate" title="{{ $booking->cancellation_reason }}">
+                                {{ $booking->cancellation_reason }}
+                            </p>
+                        @else
+                            <span class="text-gray-300 text-xs">—</span>
+                        @endif
+                    </td>
+
+                    {{-- Aksi --}}
                     <td class="table-td">
-                        <div class="flex items-center gap-1">
+                        <div class="flex items-center gap-1 justify-center flex-wrap">
                             <a href="{{ route('admin.bookings.show', $booking) }}"
-                               class="btn-secondary btn-sm py-1 px-2.5">Detail</a>
+                               class="btn-secondary btn-sm py-1 px-2.5 text-xs">Detail</a>
 
                             @if($booking->status === 'pending')
                             <form method="POST" action="{{ route('admin.bookings.confirm', $booking) }}">
                                 @csrf
-                                <button type="submit" class="btn-success btn-sm py-1 px-2.5" title="Konfirmasi">✓</button>
+                                <button type="submit"
+                                        class="btn-sm py-1 px-2.5 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                                        title="Konfirmasi Booking">
+                                    Konfirmasi
+                                </button>
+                            </form>
+                            @elseif($booking->status === 'confirmed')
+                            <form method="POST" action="{{ route('admin.bookings.start', $booking) }}">
+                                @csrf
+                                <button type="submit"
+                                        class="btn-sm py-1 px-2.5 text-xs bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors"
+                                        title="Mulai Layanan">
+                                    Mulai
+                                </button>
+                            </form>
+                            @elseif($booking->status === 'on_progress')
+                            <form method="POST" action="{{ route('admin.bookings.complete', $booking) }}">
+                                @csrf
+                                <button type="submit"
+                                        class="btn-sm py-1 px-2.5 text-xs bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
+                                        title="Selesaikan">
+                                    Selesai
+                                </button>
                             </form>
                             @endif
                         </div>
@@ -88,8 +164,14 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" class="table-td text-center text-gray-400 py-10">
-                        Tidak ada booking ditemukan.
+                    <td colspan="8" class="py-16 text-center">
+                        <svg class="w-12 h-12 mx-auto text-gray-200 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <p class="text-gray-400 text-sm font-medium">Tidak ada booking ditemukan</p>
+                        @if(request()->hasAny(['search','status','date']))
+                        <p class="text-gray-400 text-xs mt-1">Coba ubah filter pencarian</p>
+                        @endif
                     </td>
                 </tr>
                 @endforelse
@@ -103,4 +185,5 @@
     </div>
     @endif
 </div>
+
 @endsection
